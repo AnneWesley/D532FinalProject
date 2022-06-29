@@ -55,7 +55,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `mydb`.`Fuel_Consumption` (
   `Fuel_Consumption_ID` INT NOT NULL AUTO_INCREMENT,
   `Date_Reported` DATETIME NOT NULL,
-  `Source` BINARY(4) NOT NULL COMMENT 'Source can be either LAB or USER',
+  `Source` VARCHAR(4) NOT NULL CHECK(Source IN ('LAB', 'USER')) COMMENT 'Source can be either LAB or USER',
   `Car_ID` INT NOT NULL,
   `Fuel_Consumption_City_Lp100km` FLOAT NOT NULL,
   `Fuel_Consumption_Hwy_Lp100km` FLOAT NOT NULL,
