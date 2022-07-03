@@ -80,7 +80,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `vehicle_rating`.`emission` (
   `emission_id` INT NOT NULL AUTO_INCREMENT,
-  `car_id` INT NOT NULL,
+  `car_id` INT NOT NULL UNIQUE,
   `co2_emissions_gpkm` INT(5) NOT NULL,
   `co2_rating` INT(2) NOT NULL,
   `smog_rating` INT(2) NOT NULL,
