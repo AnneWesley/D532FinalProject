@@ -22,8 +22,8 @@ USE `vehicle_rating` ;  -- Ensure 'vehicle_rating` is now the default schema
 CREATE TABLE IF NOT EXISTS `vehicle_rating`.`fuel` (
   `fuel_id` CHAR(1) NOT NULL COMMENT 'Setting it to Char(1) means we cannot have more than 26 types of fuel in the system. It is future-proof for cars.',
   `scientific_name` VARCHAR(45) NULL,
-  `current_price` DECIMAL NOT NULL DEFAULT 0.0,
-  `average_price` DECIMAL NOT NULL DEFAULT 0.0,
+  `current_price` DOUBLE NOT NULL DEFAULT 0.0,
+  `average_price` DOUBLE NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`fuel_id`))
 ENGINE = InnoDB;
 
