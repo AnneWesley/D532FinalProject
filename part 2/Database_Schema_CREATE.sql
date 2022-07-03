@@ -1,95 +1,102 @@
 -- MySQL Workbench Forward Engineering
 
+-- -----------------------------------------------------
+-- Taking backup of DB settings to restore after database creation
+-- -----------------------------------------------------
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema mydb
+-- PART I - Create schema and all tables
 -- -----------------------------------------------------
+-- Create Schema vehicle_rating
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `vehicle_rating` DEFAULT CHARACTER SET utf8 ;
+USE `vehicle_rating` ;  -- Ensure 'vehicle_rating` is now the default schema
+
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Table `vehicle_rating`.`fuel`
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
-USE `mydb` ;
-
--- -----------------------------------------------------
--- Table `mydb`.`Fuel`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Fuel` (
-  `Fuel_ID` CHAR(1) NOT NULL COMMENT 'Setting it to Char(1) means we cannot have more than 26 types of fuel in the system. It is future-proof for cars.',
-  `Scientific_Name` VARCHAR(45) NULL,
-  `Current_Price` DECIMAL NOT NULL,
-  `Average_Price` DECIMAL NOT NULL,
-  PRIMARY KEY (`Fuel_ID`))
+CREATE TABLE IF NOT EXISTS `vehicle_rating`.`fuel` (
+  `fuel_id` CHAR(1) NOT NULL COMMENT 'Setting it to Char(1) means we cannot have more than 26 types of fuel in the system. It is future-proof for cars.',
+  `scientific_name` VARCHAR(45) NULL,
+  `current_price` DECIMAL NOT NULL DEFAULT 0.0,
+  `average_price` DECIMAL NOT NULL DEFAULT 0.0,
+  PRIMARY KEY (`fuel_id`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Car`
+-- Table `vehicle_rating`.`car`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Car` (
-  `Car_ID` INT NOT NULL,
-  `Model_Year` INT NOT NULL,
-  `Make` VARCHAR(45) NOT NULL,
-  `Model` VARCHAR(45) NOT NULL,
-  `Vehicle_Class` VARCHAR(45) NOT NULL,
-  `Engine_Size_L` DECIMAL NOT NULL,
-  `Cylinders` SMALLINT(2) NOT NULL,
-  `Transmission` VARCHAR(45) NOT NULL,
-  `Fuel_Type` CHAR(1) NOT NULL,
-  PRIMARY KEY (`Car_ID`),
-  INDEX `FK_Fuel_idx` (`Fuel_Type` ASC) VISIBLE,
+CREATE TABLE IF NOT EXISTS `vehicle_rating`.`car` (
+  `car_id` INT NOT NULL AUTO_INCREMENT,
+  `model_year` INT(4) NOT NULL,
+  `make` VARCHAR(50) NOT NULL,
+  `model` VARCHAR(100) NOT NULL,
+  `vehicle_class` VARCHAR(50) NOT NULL,
+  `engine_size_l` DOUBLE NOT NULL,
+  `cylinders` INT(2) NOT NULL,
+  `transmission` VARCHAR(50) NOT NULL,
+  `fuel_type` CHAR(1) NOT NULL,
+  PRIMARY KEY (`car_id`),
+  INDEX `FK_Fuel_idx` (`fuel_type` ASC),
   CONSTRAINT `FK_Fuel`
-    FOREIGN KEY (`Fuel_Type`)
-    REFERENCES `mydb`.`Fuel` (`Fuel_ID`)
+    FOREIGN KEY (`fuel_type`)
+    REFERENCES `vehicle_rating`.`fuel` (`fuel_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Fuel_Consumption`
+-- Table `vehicle_rating`.`fuel_consumption`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Fuel_Consumption` (
-  `Fuel_Consumption_ID` INT NOT NULL AUTO_INCREMENT,
-  `Date_Reported` DATETIME NOT NULL,
-  `Source` VARCHAR(4) NOT NULL CHECK(Source IN ('LAB', 'USER')) COMMENT 'Source can be either LAB or USER',
-  `Car_ID` INT NOT NULL,
-  `Fuel_Consumption_City_Lp100km` FLOAT NOT NULL,
-  `Fuel_Consumption_Hwy_Lp100km` FLOAT NOT NULL,
-  `Fuel_Consumption_Combo_Lp100km` FLOAT NOT NULL,
-  `Fuel_Consumption_Combo_MPG` FLOAT GENERATED ALWAYS AS () VIRTUAL COMMENT 'Value for this column is derived from column Fuel_Consumption_Combo_Lp100km',
-  PRIMARY KEY (`Fuel_Consumption_ID`),
-  INDEX `FK_Car_ID_idx` (`Car_ID` ASC) VISIBLE,
+CREATE TABLE IF NOT EXISTS `vehicle_rating`.`fuel_consumption` (
+  `fuel_consumption_id` INT NOT NULL AUTO_INCREMENT,
+  `date_reported` DATETIME NULL,
+  `source` VARCHAR(4) NOT NULL COMMENT 'Source can be either LAB or USER' CHECK(source IN('LAB','USER')),
+  `car_id` INT NOT NULL,
+  `fuel_consumption_city_lp100km` DOUBLE NOT NULL,
+  `fuel_consumption_hwy_lp100km` DOUBLE NOT NULL,
+  `fuel_consumption_combo_lp100km` DOUBLE NOT NULL,
+  `fuel_consumption_city_mpg` DOUBLE GENERATED ALWAYS AS (235.215 / fuel_consumption_city_lp100km) VIRTUAL COMMENT 'Value derived from column fuel_consumption_city_lp100km',
+  `fuel_consumption_hwy_mpg` DOUBLE GENERATED ALWAYS AS (235.215 / fuel_consumption_hwy_lp100km) VIRTUAL COMMENT 'Value derived from column fuel_consumption_hwy_lp100km',
+  `fuel_consumption_combo_mpg` DOUBLE GENERATED ALWAYS AS (235.215 / fuel_consumption_combo_lp100km) VIRTUAL COMMENT 'Value derived from column fuel_consumption_combo_lp100km',
+  PRIMARY KEY (`fuel_consumption_id`),
+  INDEX `FK_Car_ID_idx` (`car_id` ASC),
   CONSTRAINT `FK_Car_Fuel`
-    FOREIGN KEY (`Car_ID`)
-    REFERENCES `mydb`.`Car` (`Car_ID`)
+    FOREIGN KEY (`car_id`)
+    REFERENCES `vehicle_rating`.`car` (`car_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Emission`
+-- Table `vehicle_rating`.`emission`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Emission` (
-  `Emission_ID` INT NOT NULL,
-  `Car_ID` INT NOT NULL,
-  `CO2_Emissions_gpkm` INT NOT NULL,
-  `CO2_Rating` SMALLINT(2) NOT NULL,
-  `Smog_Rating` SMALLINT(2) NOT NULL,
-  PRIMARY KEY (`Emission_ID`),
-  INDEX `FK_Car_Emission_idx` (`Car_ID` ASC) VISIBLE,
+CREATE TABLE IF NOT EXISTS `vehicle_rating`.`emission` (
+  `emission_id` INT NOT NULL AUTO_INCREMENT,
+  `car_id` INT NOT NULL,
+  `co2_emissions_gpkm` INT(5) NOT NULL,
+  `co2_rating` INT(2) NOT NULL,
+  `smog_rating` INT(2) NOT NULL,
+  PRIMARY KEY (`emission_id`),
+  INDEX `FK_Car_Emission_idx` (`car_id` ASC),
   CONSTRAINT `FK_Car_Emission`
-    FOREIGN KEY (`Car_ID`)
-    REFERENCES `mydb`.`Car` (`Car_ID`)
+    FOREIGN KEY (`car_id`)
+    REFERENCES `vehicle_rating`.`car` (`car_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Restoring all DB settings
+-- -----------------------------------------------------
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
