@@ -1,0 +1,42 @@
+{% extends 'base_for_cars.html' %}
+
+{% block content %}
+<h1 style="text-align:center;color:blue;">{% block title %} {{ 'CO2 Rating of ' }}{{ other[0][0] }}{{ ' Models' }}{% endblock %}</h1>   
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+</style> 
+
+<table>
+  <tr>
+    <th>Car Model</th>
+<th>CO2 Rating</th>
+  </tr>
+{% for o1 in other %}  
+<tr>
+    <td>{{ o1[0] }}{{ ' ' }}{{ o1[1] }}</td>
+<td>{{ o1[3] }}</td>
+   
+  </tr>
+{% endfor %}
+</table>
+
+<p style="text-align:center;color:blue;"><button onclick="history.back()">Go Back</button></p>      
+
+             
+	
+{% endblock %}

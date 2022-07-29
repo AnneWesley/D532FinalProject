@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 style="text-align:center;color:blue;">{% block title %} Cars By Vehicle Class{% endblock %}</h1>
+<p style="text-align:center;color:blue;font-size:120%;">Click on the car model to view its CO2 rating. </p>
+<h2>SUV:Small</h2>   
+{% for c1 in car1 %}
+        <a href="{{ url_for('car',car_id=c1['car_id']) }}">
+            <p style="color:blue;font-size:120%">{{ c1['make'] }}{{ ' ' }}{{ c1['model'] }}</p>
+        </a>
+        
+	{% endfor %}
+<h2>SUV:Standard</h2>
+{% for c5 in car5 %}
+        <a href="{{ url_for('car',car_id=c5['car_id']) }}">
+            <p style="color:blue;font-size:120%">{{ c5['make'] }}{{ ' ' }}{{ c5['model'] }}</p>
+        </a>
+    {% endfor %}
+<h2>Full-size</h2>
+{% for c10 in car10 %}
+        <a href="{{ url_for('car',car_id=c10['car_id']) }}">
+            <p style="color:blue;font-size:120%">{{ c10['make'] }}{{ ' ' }}{{ c10['model'] }}</p>
+        </a>
+    {% endfor %}
+<h2>Mid-size</h2>
+{% for c2 in car2 %}
+        <a href="{{ url_for('car',car_id=c2['car_id']) }}">
+            <p style="color:blue;font-size:120%">{{ c2['make'] }}{{ ' ' }}{{ c2['model'] }}</p>
+        </a>
+    {% endfor %}
+<h2>Compact</h2>
+{% for c3 in car3 %}
+        <a href="{{ url_for('car',car_id=c3['car_id']) }}">
+            <p style="color:blue;font-size:120%">{{ c3['make'] }}{{ ' ' }}{{ c3['model'] }}</p>
+        </a>
+    {% endfor %}
+<h2>Minicompact</h2>
+{% for c4 in car4 %}
+        <a href="{{ url_for('car',car_id=c4['car_id']) }}">
+            <p style="color:blue;font-size:120%">{{ c4['make'] }}{{ ' ' }}{{ c4['model'] }}</p>
+        </a>
+    {% endfor %}
+
+<h2>Two-seater</h2>
+{% for c6 in car6 %}
+        <a href="{{ url_for('car',car_id=c6['car_id']) }}">
+            <p style="color:blue;font-size:120%">{{ c6['make'] }}{{ ' ' }}{{ c6['model'] }}</p>
+        </a>
+    {% endfor %}
+<h2>Subcompact</h2>
+{% for c7 in car7 %}
+        <a href="{{ url_for('car',car_id=c7['car_id']) }}">
+            <p style="color:blue;font-size:120%">{{ c7['make'] }}{{ ' ' }}{{ c7['model'] }}</p>
+        </a>
+    {% endfor %}
+<h2>Station wagon:small</h2>
+{% for c8 in car8 %}
+        <a href="{{ url_for('car',car_id=c8['car_id']) }}">
+            <p style="color:blue;font-size:120%">{{ c8['make'] }}{{ ' ' }}{{ c8['model'] }}</p>
+        </a>
+    {% endfor %}
+<h2>Station wagon:Mid-size</h2>
+{% for c9 in car9 %}
+        <a href="{{ url_for('car',car_id=c9['car_id']) }}">
+            <p style="color:blue;font-size:120%">{{ c9['make'] }}{{ ' ' }}{{ c9['model'] }}</p>
+        </a>
+    {% endfor %}
+<h2>Pickup truck:Small</h2>
+{% for c11 in car11 %}
+        <a href="{{ url_for('car',car_id=c11['car_id']) }}">
+            <p style="color:blue;font-size:120%">{{ c11['make'] }}{{ ' ' }}{{ c11['model'] }}</p>
+        </a>
+    {% endfor %}
+<h2>Pickup truck:Standard</h2>
+{% for c12 in car12 %}
+        <a href="{{ url_for('car',car_id=c12['car_id']) }}">
+            <p style="color:blue;font-size:120%">{{ c12['make'] }}{{ ' ' }}{{ c12['model'] }}</p>
+        </a>
+    {% endfor %}
+<h2>Minivan</h2>
+{% for c13 in car13 %}
+        <a href="{{ url_for('car',car_id=c13['car_id']) }}">
+            <p style="color:blue;font-size:120%">{{ c13['make'] }}{{ ' ' }}{{ c13['model'] }}</p>
+        </a>
+    {% endfor %}
+<h2>Special purpose vehicle</h2>
+{% for c14 in car14 %}
+        <a href="{{ url_for('car',car_id=c14['car_id']) }}">
+            <p style="color:blue;font-size:120%">{{ c14['make'] }}{{ ' ' }}{{ c14['model'] }}</p>
+        </a>
+    {% endfor %}
+{% endblock %}
+
+
+

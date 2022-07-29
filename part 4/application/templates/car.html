@@ -1,0 +1,16 @@
+{% extends 'base_for_cars.html' %}
+
+{% block content %}
+<br><br><h3 style="text-align:center;color:blue;">{% block title %} CO2 Rating{% endblock %}</h3> 
+<p style="text-align:center;color:blue;">"The tailpipe emissions of carbon dioxide rated on a scale from 1 (worst) to 10 (best)"</p>    
+<p style="text-align:center;font-size:140%;color:blue;">{{ 'Your selected car model,' }}{{ ' ' }}{{ car['make'] }} {{' ' }}{{ car['model'] }}{{ ' ' }}{{','}}{{'has a CO2 rating of'}}{{ ' '}}{{car['co2_rating']}}</p>
+    
+<p style="text-align:center;color:blue;"><a href="{{ url_for('best') }}" ><button class=grey style="height:100px;width:250px;color:blue;">View Cars with Best CO2 
+Rating</button></a></p>
+<p style="text-align:center;color:blue;"><a href="{{ url_for('worst') }}" ><button class=grey style="height:100px;width:250px;color:blue;">View Cars with Worst CO2 
+Rating</button></a></p>
+<p style="text-align:center;color:blue;"><a href="{{ url_for('other',make=car['make']) }}"><button class=grey style="height:100px;width:250px;color:blue;">View CO2 rating of other {{ car['make'] }} models </button></a></p>
+
+    
+{% endblock %}
+

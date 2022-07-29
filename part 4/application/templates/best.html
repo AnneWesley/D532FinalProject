@@ -1,0 +1,59 @@
+{% extends 'base_for_cars.html' %}
+
+{% block content %}
+<h1 style="text-align:center;color:blue;">{% block title %} Cars with Best CO2 Rating{% endblock %}</h1>   
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+</style> 
+<table>
+  <tr>
+    <th>Make</th>
+<th>Model</th>
+  </tr> 
+{% for b1 in best %}
+<tr>
+    <td>{{ b1[0] }}</td>
+<td>{{ b1[1] }}</td>
+ </tr>
+      
+
+             
+	{% endfor %}
+</table>
+<p style="text-align:center;color:blue;"><button onclick="history.back()">Go Back</button></p>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
